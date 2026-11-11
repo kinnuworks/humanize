@@ -94,7 +94,7 @@ def naturalsize(
         return _("%d Byte") % int(bytes_)
 
     if abs_bytes < base:
-        return f"{int(bytes_)}B" if gnu else _("%d Bytes") % int(bytes_)
+        return f"{bytes_}B" if gnu else _("%s Bytes") % bytes_
 
     from math import log
 
