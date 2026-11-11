@@ -53,10 +53,10 @@ jobs:
         uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
 
       - name: Generate translation binaries
-        # eval fork: the runners can't reach the Ubuntu mirrors today, so compile with Babel instead of gettext
+        # eval fork: the runners can't reach the Ubuntu mirrors today, so compile with polib instead of gettext
         run: |
-          python -m pip install babel
-          pybabel compile -d src/humanize/locale -D humanize
+          python -m pip install polib
+          python -c "import glob, polib; [polib.pofile(p).save_as_mofile(p[:-3] + '.mo') for p in glob.glob('src/humanize/locale/*/LC_MESSAGES/humanize.po')]"
 
       - name: Tox tests
         run: |
