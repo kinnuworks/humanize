@@ -337,12 +337,7 @@ def naturalday(value: dt.date | dt.datetime, format: str = "%b %d") -> str:
     import datetime as dt
 
     try:
-        # When value is a tz-aware datetime, compute "today" in that timezone
-        # so the comparison uses the correct local date.
-        if isinstance(value, dt.datetime) and value.tzinfo is not None:
-            today = dt.datetime.now(value.tzinfo).date()
-        else:
-            today = dt.date.today()  # noqa: DTZ011
+        today = dt.date.today()  # noqa: DTZ011
         value = dt.date(value.year, value.month, value.day)
     except AttributeError:
         # Passed value wasn't date-ish
@@ -370,10 +365,7 @@ def naturaldate(value: dt.date | dt.datetime) -> str:
 
     original_value = value
     try:
-        if isinstance(value, dt.datetime) and value.tzinfo is not None:
-            today = dt.datetime.now(value.tzinfo).date()
-        else:
-            today = dt.date.today()  # noqa: DTZ011
+        today = dt.date.today()  # noqa: DTZ011
         value = dt.date(value.year, value.month, value.day)
     except AttributeError:
         # Passed value wasn't date-ish
