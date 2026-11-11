@@ -43,11 +43,6 @@ jobs:
         run: |
           echo "PYTHON_GIL=0" >> "$GITHUB_ENV"
 
-      - name: Install Linux dependencies
-        if: startsWith(matrix.os, 'ubuntu')
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gettext
 
       - name: Install macOS dependencies
         if: startsWith(matrix.os, 'macos')
@@ -58,8 +53,10 @@ jobs:
         uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
 
       - name: Generate translation binaries
+        # eval fork: the runners can't reach the Ubuntu mirrors today, so compile with Babel instead of gettext
         run: |
-          scripts/generate-translation-binaries.sh
+          python -m pip install babel
+          pybabel compile -d src/humanize/locale -D humanize
 
       - name: Tox tests
         run: |
