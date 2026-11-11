@@ -256,6 +256,8 @@ def naturaldelta(
 
         return _ngettext("1 year, %d day", "1 year, %d days", days) % days
 
+    # Round (not truncate) multi-year spans so e.g. 2.6 years reads "3 years".
+    years = round(delta.days / 365)
     return _ngettext("%d year", "%d years", years).replace("%d", "%s") % intcomma(years)
 
 
