@@ -24,7 +24,8 @@ jobs:
           - "3.13"
           - "3.12"
           - "3.11"
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        # eval fork: Ubuntu only, so each replay doesn't wait in the macOS/Windows queue
+        os: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -45,7 +46,8 @@ jobs:
       - name: Install Linux dependencies
         if: startsWith(matrix.os, 'ubuntu')
         run: |
-          sudo apt install gettext
+          sudo apt-get update
+          sudo apt-get install -y gettext
 
       - name: Install macOS dependencies
         if: startsWith(matrix.os, 'macos')
