@@ -326,6 +326,15 @@ def _convert_aware_datetime(
     return value
 
 
+def _today_for(value: Any) -> dt.date:
+    """Return today's date, in the value's timezone when it is a tz-aware datetime."""
+    import datetime as dt
+
+    if isinstance(value, dt.datetime) and value.tzinfo is not None:
+        return dt.datetime.now(value.tzinfo).date()
+    return dt.date.today()  # noqa: DTZ011
+
+
 def naturalday(value: dt.date | dt.datetime, format: str = "%b %d") -> str:
     """Return a natural day.
 
@@ -337,7 +346,7 @@ def naturalday(value: dt.date | dt.datetime, format: str = "%b %d") -> str:
     import datetime as dt
 
     try:
-        today = dt.date.today()  # noqa: DTZ011
+        today = _today_for(value)
         value = dt.date(value.year, value.month, value.day)
     except AttributeError:
         # Passed value wasn't date-ish
@@ -365,7 +374,7 @@ def naturaldate(value: dt.date | dt.datetime) -> str:
 
     original_value = value
     try:
-        today = dt.date.today()  # noqa: DTZ011
+        today = _today_for(value)
         value = dt.date(value.year, value.month, value.day)
     except AttributeError:
         # Passed value wasn't date-ish
