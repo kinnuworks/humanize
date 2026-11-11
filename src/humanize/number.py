@@ -187,7 +187,9 @@ def intcomma(value: NumberOrString, ndigits: int | None = None) -> str:
                 value = float(value)
             else:
                 value = int(value)
-        else:
+        elif not isinstance(value, int):
+            # Python ints are always finite and may exceed float range, so only
+            # non-int numbers go through the float() finiteness check.
             if not math.isfinite(float(value)):
                 return _format_not_finite(float(value))
             float(value)
