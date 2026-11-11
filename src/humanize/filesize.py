@@ -94,7 +94,9 @@ def naturalsize(
         return _("%d Byte") % int(bytes_)
 
     if abs_bytes < base:
-        return f"{bytes_}B" if gnu else _("%s Bytes") % bytes_
+        # Sub-unit sizes are whole bytes: truncate (bytes_ is a float here), and keep
+        # the "%d Bytes" msgid so the translation catalogs still match.
+        return f"{int(bytes_)}B" if gnu else _("%d Bytes") % int(bytes_)
 
     from math import log
 
